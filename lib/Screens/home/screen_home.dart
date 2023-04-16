@@ -31,7 +31,12 @@ class HomeScreen extends StatelessWidget {
             child: Center(
                 child: Column(
               children: [
-                Container(
+                InkWell(
+                  onTap: (){
+                    Navigator.of(context).pushNamed('notify_home');
+                  },
+                  child:Container(
+                  
                   height: 150,
                   width: 120,
                   decoration: BoxDecoration(
@@ -45,9 +50,14 @@ class HomeScreen extends StatelessWidget {
                           image: NetworkImage(
                               'https://png.pngtree.com/png-vector/20190419/ourlarge/pngtree-vvector-notification-icon-png-image_957092.jpg'),
                           fit: BoxFit.contain)),
-                  // child: Image.network(
-                  //     'https://png.pngtree.com/png-vector/20190419/ourlarge/pngtree-vvector-notification-icon-png-image_957092.jpg'),
+                    
+                  
                 ),
+                ),
+                
+
+
+
                 const Padding(
                   padding: EdgeInsets.only(top: 10),
                   child: Text('Notify',
@@ -64,7 +74,11 @@ class HomeScreen extends StatelessWidget {
             child: Center(
                 child: Column(
               children: [
-                Container(
+                InkWell(
+                  onTap: (){
+                    Navigator.of(context).pushNamed('reminder_home');
+                  },
+                  child: Container(
                   height: 150,
                   width: 120,
                   decoration: BoxDecoration(
@@ -80,6 +94,7 @@ class HomeScreen extends StatelessWidget {
                           fit: BoxFit.contain)),
                   // child: Image.network(
                   //     'https://cdn-icons-png.flaticon.com/512/3799/3799832.png'),
+                ),
                 ),
                 const Padding(
                   padding: EdgeInsets.only(top: 10),

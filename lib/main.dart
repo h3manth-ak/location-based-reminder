@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:location_based_reminder/home/screen_home.dart';
+// import 'package:location_based_reminder/Notify/notify_page.dart';
+// import 'package:location_based_reminder/Reminder/reminder.dart';
+import 'package:location_based_reminder/Screens/Notify/notify_page.dart';
+import 'package:location_based_reminder/Screens/Reminder/reminder.dart';
+import 'package:location_based_reminder/Screens/home/screen_home.dart';
+// import 'package:location_based_reminder/home/screen_home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,6 +20,14 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.blue,
       ),
       home:HomeScreen() ,
+      routes:{
+        'notify_home':(ctx){
+          return Notify();
+        },
+        'reminder_home':(ctx){
+          return Reminder();
+        },
+      } ,
     );
   }
 }
