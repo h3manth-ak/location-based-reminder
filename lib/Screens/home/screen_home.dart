@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(
-              top: 70,
+              top: 160,
               bottom: 25,
             ),
             child: Center(
