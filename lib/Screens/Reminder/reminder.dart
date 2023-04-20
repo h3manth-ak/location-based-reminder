@@ -33,435 +33,83 @@ class SwitchClass extends State<Reminder> {
     return Scaffold(
       backgroundColor: Colors.black87,
       body: SafeArea(
-        child: Center(
-            child: Padding(
-                padding: EdgeInsets.only(left: 50),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
+        child: GridView.count(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10.0,
+          mainAxisSpacing: 10.0,
+          shrinkWrap: true,
+          children: List.generate(20, (index) {
+            return Container(
+              child: Card(
+                color: Color.fromARGB(255, 39, 39, 39),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                clipBehavior: Clip.hardEdge,
+                child: InkWell(
+                  splashColor: Colors.blue.withAlpha(30),
+                  onTap: () {
+                    debugPrint('Card tapped.');
+                  },
+                  child: SizedBox(
+                    width: 150,
+                    height: 150,
+                    child: Column(
                       children: [
-                        Card(
-                          color: Color.fromARGB(255, 39, 39, 39),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          ),
-                          clipBehavior: Clip.hardEdge,
-                          child: InkWell(
-                            splashColor: Colors.blue.withAlpha(30),
-                            onTap: () {
-                              debugPrint('Card tapped.');
-                            },
-                            child: SizedBox(
-                              width: 150,
-                              height: 150,
-                              child: Column(
+                        Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left: 19, top: 3),
+                              child: Row(
                                 children: [
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 19,top: 3),
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.location_on_outlined,
-                                              color: Colors.greenAccent,
-                                            ),
-                                            Text(
-                                              'Cheuthoni',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 10,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
+                                  Icon(
+                                    Icons.location_on_outlined,
+                                    color: Colors.greenAccent,
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: 20,
-                                      bottom: 4,
-                                    ),
-                                    child: Text(
-                                      'Buy beef',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                      ),
+                                  Text(
+                                    'Cheuthoni',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
                                     ),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 30, left: 50),
-                                    child: Switch(
-                                      onChanged: toggleSwitch,
-                                      value: isSwitched,
-                                      activeColor: Colors.white,
-                                      activeTrackColor:
-                                          Color.fromARGB(255, 30, 232, 8),
-                                      inactiveThumbColor: Colors.white,
-                                      inactiveTrackColor: Colors.grey,
-                                    ),
-                                  )
                                 ],
                               ),
                             ),
-                          ),
+                          ],
                         ),
-                        Card(
-                          color: Color.fromARGB(255, 39, 39, 39),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            top: 20,
+                            bottom: 4,
                           ),
-                          clipBehavior: Clip.hardEdge,
-                          child: InkWell(
-                            splashColor: Colors.blue.withAlpha(30),
-                            onTap: () {
-                              debugPrint('Card tapped.');
-                            },
-                            child: SizedBox(
-                              width: 150,
-                              height: 150,
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 19,top: 3),
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.location_on_outlined,
-                                              color: Colors.greenAccent,
-                                            ),
-                                            Text(
-                                              'Cheuthoni',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 10,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: 20,
-                                      bottom: 4,
-                                    ),
-                                    child: Text(
-                                      'Buy beef',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 30, left: 50),
-                                    child: Switch(
-                                      onChanged: toggleSwitch,
-                                      value: isSwitched,
-                                      activeColor: Colors.white,
-                                      activeTrackColor:
-                                          Color.fromARGB(255, 30, 232, 8),
-                                      inactiveThumbColor: Colors.white,
-                                      inactiveTrackColor: Colors.grey,
-                                    ),
-                                  )
-                                ],
-                              ),
+                          child: Text(
+                            'Buy beef',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 30, left: 50),
+                          child: Switch(
+                            onChanged: toggleSwitch,
+                            value: isSwitched,
+                            activeColor: Colors.white,
+                            activeTrackColor: Color.fromARGB(255, 30, 232, 8),
+                            inactiveThumbColor: Colors.white,
+                            inactiveTrackColor: Colors.grey,
+                          ),
+                        )
                       ],
                     ),
-                    Row(
-                      children: [
-                        Card(
-                          color: Color.fromARGB(255, 39, 39, 39),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          ),
-                          clipBehavior: Clip.hardEdge,
-                          child: InkWell(
-                            splashColor: Colors.blue.withAlpha(30),
-                            onTap: () {
-                              debugPrint('Card tapped.');
-                            },
-                            child: SizedBox(
-                              width: 150,
-                              height: 150,
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 19,top: 3),
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.location_on_outlined,
-                                              color: Colors.greenAccent,
-                                            ),
-                                            Text(
-                                              'Cheuthoni',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 10,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: 20,
-                                      bottom: 4,
-                                    ),
-                                    child: Text(
-                                      'Buy beef',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 30, left: 50),
-                                    child: Switch(
-                                      onChanged: toggleSwitch,
-                                      value: isSwitched,
-                                      activeColor: Colors.white,
-                                      activeTrackColor:
-                                          Color.fromARGB(255, 30, 232, 8),
-                                      inactiveThumbColor: Colors.white,
-                                      inactiveTrackColor: Colors.grey,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Card(
-                          color: Color.fromARGB(255, 39, 39, 39),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          ),
-                          clipBehavior: Clip.hardEdge,
-                          child: InkWell(
-                            splashColor: Colors.blue.withAlpha(30),
-                            onTap: () {
-                              debugPrint('Card tapped.');
-                            },
-                            child: SizedBox(
-                              width: 150,
-                              height: 150,
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 19,top: 3),
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.location_on_outlined,
-                                              color: Colors.greenAccent,
-                                            ),
-                                            Text(
-                                              'Cheuthoni',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 10,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: 20,
-                                      bottom: 4,
-                                    ),
-                                    child: Text(
-                                      'Buy beef',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 30, left: 50),
-                                    child: Switch(
-                                      onChanged: toggleSwitch,
-                                      value: isSwitched,
-                                      activeColor: Colors.white,
-                                      activeTrackColor:
-                                          Color.fromARGB(255, 30, 232, 8),
-                                      inactiveThumbColor: Colors.white,
-                                      inactiveTrackColor: Colors.grey,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Card(
-                          color: Color.fromARGB(255, 39, 39, 39),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          ),
-                          clipBehavior: Clip.hardEdge,
-                          child: InkWell(
-                            splashColor: Colors.blue.withAlpha(30),
-                            onTap: () {
-                              debugPrint('Card tapped.');
-                            },
-                            child: SizedBox(
-                              width: 150,
-                              height: 150,
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 19,top: 3),
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.location_on_outlined,
-                                              color: Colors.greenAccent,
-                                            ),
-                                            Text(
-                                              'Cheuthoni',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 10,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: 20,
-                                      bottom: 4,
-                                    ),
-                                    child: Text(
-                                      'Buy beef',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 30, left: 50),
-                                    child: Switch(
-                                      onChanged: toggleSwitch,
-                                      value: isSwitched,
-                                      activeColor: Colors.white,
-                                      activeTrackColor:
-                                          Color.fromARGB(255, 30, 232, 8),
-                                      inactiveThumbColor: Colors.white,
-                                      inactiveTrackColor: Colors.grey,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Card(
-                          color: Color.fromARGB(255, 39, 39, 39),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          ),
-                          clipBehavior: Clip.hardEdge,
-                          child: InkWell(
-                            splashColor: Colors.blue.withAlpha(30),
-                            onTap: () {
-                              debugPrint('Card tapped.');
-                            },
-                            child: SizedBox(
-                              width: 150,
-                              height: 150,
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 19,top: 3),
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.location_on_outlined,
-                                              color: Colors.greenAccent,
-                                            ),
-                                            Text(
-                                              'Cheuthoni',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 10,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: 20,
-                                      bottom: 4,
-                                    ),
-                                    child: Text(
-                                      'Buy beef',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 30, left: 50),
-                                    child: Switch(
-                                      onChanged: toggleSwitch,
-                                      value: isSwitched,
-                                      activeColor: Colors.white,
-                                      activeTrackColor:
-                                          Color.fromARGB(255, 30, 232, 8),
-                                      inactiveThumbColor: Colors.white,
-                                      inactiveTrackColor: Colors.grey,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ))),
+                  ),
+                ),
+              ),
+            );
+          }),
+        ),
       ),
       bottomNavigationBar: Container(
         height: 60,
@@ -470,15 +118,21 @@ class SwitchClass extends State<Reminder> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-                padding: EdgeInsets.only(bottom: 45),
+              padding: EdgeInsets.only(bottom: 15),
+              child: Center(
                 child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.add,
-                    color: Colors.green,
-                    size: 40,
+                    onPressed: () {
+                      print('hello reminder ');
+                    },
+                    icon: Icon(
+                      Icons.add,
+                      color: Colors.green,
+                      size: 45,
+                    ),
+                    splashColor: Colors.green,
                   ),
-                ))
+              )
+            )
           ],
         ),
       ),
