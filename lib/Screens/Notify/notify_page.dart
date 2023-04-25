@@ -14,18 +14,21 @@ class Notify extends StatefulWidget {
 class SwitchClass extends State<Notify> {
   bool isSwitched = true;
   var textValue = 'Switch is ON';
+  bool _isvisible = false;
 
   void toggleSwitch(bool value) {
     if (isSwitched == false) {
       setState(() {
         isSwitched = true;
         textValue = 'Switch Button is ON';
+        _isvisible = false;
       });
       print('Switch Button is ON');
     } else {
       setState(() {
         isSwitched = false;
         textValue = 'Switch Button is OFF';
+        _isvisible = true;
       });
       print('Switch Button is OFF');
     }
@@ -33,6 +36,7 @@ class SwitchClass extends State<Notify> {
 
   @override
   Widget build(BuildContext context) {
+    getAllNotify();
     return Scaffold(
       backgroundColor: Colors.black87,
       body: SafeArea(
@@ -74,12 +78,38 @@ class SwitchClass extends State<Notify> {
                                         Icons.location_on_outlined,
                                         color: Colors.greenAccent,
                                       ),
-                                      Text(
-                                        data.location,
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 10,
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 30),
+                                        child: Text(
+                                          data.location,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 10,
+                                          ),
                                         ),
+                                      ),
+                                      Visibility(
+                                        visible: data.isVisible,
+                                        child: Padding(
+                                            padding: EdgeInsets.only(left: 5),
+                                            child: IconButton(
+                                              onPressed: () {
+                                                if (data.id != null) {
+                                                  deleteNotify(data.id!);
+                                                } else {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(SnackBar(
+                                                          content: Text(
+                                                              'Notify id is null')));
+                                                }
+                                              },
+                                              icon: Icon(
+                                                Icons.delete,
+                                                color: Colors.redAccent,
+                                                size: 15,
+                                              ),
+                                            )),
                                       ),
                                     ],
                                   ),
@@ -104,15 +134,28 @@ class SwitchClass extends State<Notify> {
                                 child: Row(
                                   children: [
                                     Text(
-                                       data.distance,
+                                      data.distance,
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 15,
                                       ),
                                     ),
                                     Switch(
-                                      onChanged: toggleSwitch,
-                                      value: isSwitched,
+                                      value: data.isOn,
+                                      onChanged: (value) {
+                                        if (data.isOn == false) {
+                                          setState(() {
+                                            data.isOn = value;
+                                            data.isVisible = false;
+                                          });
+                                        }
+                                        else{
+                                          setState(() {
+                                            data.isOn = value;
+                                            data.isVisible = true;
+                                          });
+                                        }
+                                      },
                                       activeColor: Colors.white,
                                       activeTrackColor:
                                           Color.fromARGB(255, 30, 232, 8),
