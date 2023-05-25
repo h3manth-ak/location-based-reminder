@@ -32,3 +32,14 @@ class NotifyModel{
   bool isVisible=false;
   NotifyModel({required this.name,required this.distance,required this.location,this.id});
 }
+@HiveType(typeId:3)
+class UserModel {
+  @HiveField(0)
+  int? id;
+  @HiveField(1)
+  final String name;
+  @HiveField(2)
+  final String phno;
+
+  UserModel({required this.name,required this.phno,this.id});
+}

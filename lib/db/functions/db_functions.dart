@@ -4,6 +4,7 @@ import '../models/db_models.dart';
 
 ValueNotifier<List<TaskModel>>taskListNotifier=ValueNotifier([]);
 ValueNotifier<List<NotifyModel>>notifyListNotifier=ValueNotifier([]);
+ValueNotifier<List<UserModel>>userListNotifier=ValueNotifier([]);
 
 Future <void> addTask(TaskModel task) async{
   final taskDB=await Hive.openBox<TaskModel>('task_db');
@@ -44,4 +45,19 @@ Future <void> deleteNotify(int id) async{
   final notifyDB=await Hive.openBox<NotifyModel>('notify_db');
   await notifyDB.delete(id);
   getAllNotify();
+}
+Future <void> userAdd(UserModel user) async{
+  final userDB=await Hive.openBox<UserModel>('user_db');
+  final _id= await userDB.add(user);
+  user.id=_id;
+  userListNotifier.value.add(user);
+  userListNotifier.notifyListeners();
+  // print(user.toString());
+
+}
+Future <void> getAllUser() async{
+  final userDB=await Hive.openBox<UserModel>('user_db');
+  userListNotifier.value.clear();
+  userListNotifier.value.addAll(userDB.values);
+  userListNotifier.notifyListeners();
 }

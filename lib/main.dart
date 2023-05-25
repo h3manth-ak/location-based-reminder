@@ -20,7 +20,10 @@ Future<void> main() async {
   if(!Hive.isAdapterRegistered(NotifyModelAdapter().typeId)){
     Hive.registerAdapter(NotifyModelAdapter());
   }
-  runApp( MyApp());
+  if(!Hive.isAdapterRegistered(UserModelAdapter().typeId)){
+    Hive.registerAdapter(UserModelAdapter());
+  }
+  runApp( const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -29,21 +32,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.blue,
         inputDecorationTheme: const InputDecorationTheme(
         filled: true, //<-- SEE HERE
         fillColor: Colors.grey, //<-- SEE HERE
-        ),
+        ), 
       ),
       
-      home:HomeScreen() ,
+      home:const HomeScreen() ,
       routes:{
         'notify_home':(ctx){
-          return Notify();
+          return const Notify();
         },
         'reminder_home':(ctx){
-          return Reminder();
+          return const Reminder();
         },
         'reminder_data':(ctx){
           return IpFormField();

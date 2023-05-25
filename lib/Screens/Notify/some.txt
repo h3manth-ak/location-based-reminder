@@ -18,7 +18,7 @@ class _NotifyInputState extends State<NotifyInput> {
   // @override
   // void initState() {
   //   super.initState();
-  //   selectedName = 'Self'; // Set default value as 'Self'
+  //   selectedName =;
   // }
 
   @override
@@ -41,7 +41,9 @@ class _NotifyInputState extends State<NotifyInput> {
           valueListenable: userListNotifier,
           builder: (BuildContext ctx, List<UserModel> userList, Widget? child) {
             List<String> data = userList.map((user) => user.name).toList();
-
+            // if (!data.contains(selectedName)) {
+            //   selectedName = 'Self';
+            // }
             List<DropdownMenuItem<String>> dropdownItems = data.map((name) {
               return DropdownMenuItem<String>(
                 value: name,
@@ -52,7 +54,6 @@ class _NotifyInputState extends State<NotifyInput> {
             return Padding(
               padding: EdgeInsets.only(top: 40, left: 20, right: 20),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 10, bottom: 15),
@@ -60,9 +61,10 @@ class _NotifyInputState extends State<NotifyInput> {
                       value: selectedName,
                       decoration: const InputDecoration(
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black, width: 2),
-                        ),
+                            borderSide: BorderSide(
+                                color: Colors.black, width: 2)), //<-- SEE HERE
                         focusedBorder: OutlineInputBorder(
+                          //<-- SEE HERE
                           borderSide: BorderSide(color: Colors.black, width: 2),
                         ),
                         labelText: 'Select a name',
@@ -136,7 +138,7 @@ class _NotifyInputState extends State<NotifyInput> {
                     ),
                     child: Text(
                       'Submit',
-                      style: const TextStyle(fontSize: 19),
+                      style: TextStyle(fontSize: 19),
                     ),
                   ),
                 ],
@@ -157,25 +159,11 @@ class _NotifyInputState extends State<NotifyInput> {
     }
 
     print('$_namedata $_locationdata $_distField');
-    if (selectedName==null){
-      final _notifydb = NotifyModel(
-      name: 'Self',
-      distance: _distdata,
-      location: _locationdata,
-
-    );
-    addNotify(_notifydb);
-
-    }
-    else{
-      final _notifydb = NotifyModel(
+    final _notifydb = NotifyModel(
       name: selectedName!,
       distance: _distdata,
       location: _locationdata,
     );
     addNotify(_notifydb);
-
-    }
-    
   }
 }
