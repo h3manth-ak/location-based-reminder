@@ -1,11 +1,10 @@
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:hive_flutter/adapters.dart';
-import 'db/models/db_models.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import 'db/models/db_models.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -26,7 +25,6 @@ void distanceMeasure() async {
     notifyList.clear();
     notifyList.addAll(notifyBox.values);
     return notifyList;
-
   }
 
   notifyList = await getAllNotifybg();
@@ -34,11 +32,13 @@ void distanceMeasure() async {
 
   bool serviceEnabled;
   LocationPermission permission;
+  print('2226');
 
   serviceEnabled = await Geolocator.isLocationServiceEnabled();
   if (!serviceEnabled) {
     return Future.error('Location services are disabled.');
   }
+  print('22210');
 
   permission = await Geolocator.checkPermission();
   if (permission == LocationPermission.denied) {
@@ -47,16 +47,19 @@ void distanceMeasure() async {
       return Future.error('Location permissions are denied');
     }
   }
+  print('22212');
 
   if (permission == LocationPermission.deniedForever) {
     return Future.error(
         'Location permissions are permanently denied, we cannot request permissions.');
   }
+  print('2222111');
 
   final currentPosition = await Geolocator.getCurrentPosition(
     desiredAccuracy: LocationAccuracy.best,
+    forceAndroidLocationManager: true,
   );
-
+  print(currentPosition);
   for (int i = 0; i < notifyList.length; i++) {
     double latitude = notifyList[i].latitude;
     double longitude = notifyList[i].longitude;
@@ -68,7 +71,7 @@ void distanceMeasure() async {
     );
     print(distance);
     if (notifyList[i].distance != null) {
-      if (distance < 2000) {
+      if (distance < 3000) {
         print('hihihi');
         await _showNotification(
           notifyList[i].location,
@@ -108,11 +111,6 @@ Future<void> _showNotification(
 }
 
 void backgroundTask() async {
-  await AndroidAlarmManager.periodic(
-    const Duration(minutes: 1),
-    0,
-    distanceMeasure,
-    exact: true,
-    wakeup: true,
-  );
+  
+   distanceMeasure();
 }
