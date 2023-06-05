@@ -38,6 +38,7 @@ class SwitchClass extends State<Reminder> {
   @override
   Widget build(BuildContext context) {
     getAllTask();
+    // print(taskListNotifier.value);
     return Scaffold(
       backgroundColor: Colors.black87,
       body: SafeArea(
@@ -51,24 +52,26 @@ class SwitchClass extends State<Reminder> {
               shrinkWrap: true,
               children: List.generate(taskList.length, (index) {
                 final data = taskList[index];
-                return Container(
-                  child: Card(
-                    color: Color.fromARGB(255, 39, 39, 39),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                    clipBehavior: Clip.hardEdge,
-                    child: InkWell(
-                      splashColor: Colors.blue.withAlpha(30),
-                      onTap: () {
-                        debugPrint('Card tapped.');
-                      },
-                      child: SizedBox(
-                        width: 150,
-                        height: 150,
-                        child: Column(
-                          children: [
-                            Row(
+                final loc = data.location.split(',');
+                return Card(
+                  color: Color.fromARGB(255, 39, 39, 39),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                  ),
+                  clipBehavior: Clip.hardEdge,
+                  child: InkWell(
+                    splashColor: Colors.blue.withAlpha(30),
+                    onTap: () {
+                      debugPrint('Card tapped.');
+                    },
+                    child: SizedBox(
+                      width: 150,
+                      height: 150,
+                      child: Column(
+                        children: [
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
                               children: [
                                 Padding(
                                   padding: EdgeInsets.only(left: 19, top: 3),
@@ -79,7 +82,7 @@ class SwitchClass extends State<Reminder> {
                                         color: Colors.greenAccent,
                                       ),
                                       Text(
-                                        data.location,
+                                        loc[0],
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 10,
@@ -112,49 +115,49 @@ class SwitchClass extends State<Reminder> {
                                 ),
                               ],
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: 20,
-                                bottom: 4,
-                              ),
-                              child: Text(
-                                data.task,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: 20,
+                              bottom: 4,
+                            ),
+                            child: Text(
+                              data.task,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 30, left: 50),
-                              child: Switch(
-                                value: data.isOn,
-                                onChanged: (value){
-                                  if(data.isOn==false){
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 30, left: 50),
+                            child: Switch(
+                              value: data.isOn,
+                              onChanged: (value){
+                                if(data.isOn==false){
 
+                                setState(() {
+                                  data.isOn=value;
+                                  data.isVisible = false;
+
+                                });
+                                }
+                                else{
                                   setState(() {
                                     data.isOn=value;
-                                    data.isVisible = false;
+                                    data.isVisible = true;
 
                                   });
-                                  }
-                                  else{
-                                    setState(() {
-                                      data.isOn=value;
-                                      data.isVisible = true;
-
-                                    });
-                                  }
-                                },
-                                activeColor: Colors.white,
-                                activeTrackColor:
-                                    Color.fromARGB(255, 30, 232, 8),
-                                inactiveThumbColor: Colors.white,
-                                inactiveTrackColor: Colors.grey,
-                              ),
-                            )
-                          ],
-                        ),
+                                }
+                              },
+                              activeColor: Colors.white,
+                              activeTrackColor:
+                                  Color.fromARGB(255, 30, 232, 8),
+                              inactiveThumbColor: Colors.white,
+                              inactiveTrackColor: Colors.grey,
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AlarmScreen extends StatelessWidget {
+  const AlarmScreen({Key? key, required this.place}) : super(key: key);
+  final String place;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +28,7 @@ class AlarmScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 Text(
-                  'Reached Kazargod',
+                  'Reached $place',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 24,
@@ -47,10 +49,11 @@ class AlarmScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(100),
               ),
               child: Center(
-                child: Icon(
-                  Icons.check,
-                  color: Colors.white,
-                  size: MediaQuery.of(context).size.width * 0.08,
+                child: IconButton(
+                  onPressed: () {},
+                  icon:Icon(Icons.check,color: Colors.white,
+                  ),
+                  
                 ),
               ),
             ),

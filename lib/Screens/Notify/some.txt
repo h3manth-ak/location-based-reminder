@@ -1,169 +1,236 @@
-import 'package:flutter/material.dart';
-import 'package:location_based_reminder/Screens/Notify/add_user.dart';
-import 'package:location_based_reminder/db/functions/db_functions.dart';
-import 'package:location_based_reminder/db/models/db_models.dart';
+// import 'dart:ffi';
 
-class NotifyInput extends StatefulWidget {
-  NotifyInput({Key? key}) : super(key: key);
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:location_based_reminder/db/functions/db_functions.dart';
+
+import '../../db/models/db_models.dart';
+
+class Notify extends StatefulWidget {
+  const Notify({super.key});
 
   @override
-  State<NotifyInput> createState() => _NotifyInputState();
+  // State<Notify> createState() => _NotifyState();
+  SwitchClass createState() => SwitchClass();
 }
 
-class _NotifyInputState extends State<NotifyInput> {
-  final _distField = TextEditingController();
-  final _locationField = TextEditingController();
-  String? selectedName;
+class SwitchClass extends State<Notify> {
+  bool isSwitched = true;
+  var textValue = 'Switch is ON';
+  bool _isvisible = false;
+  StreamSubscription<Position>? positionSubscription;
+  Position? previousLocation;
+  Position? selectedLocation;
+  String distanceText = '';
+  @override
+  void initState() {
+    super.initState();
+    // _startTracking();
+  }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   selectedName =;
-  // }
+  void toggleSwitch(bool value) {
+    if (isSwitched == false) {
+      setState(() {
+        isSwitched = true;
+        textValue = 'Switch Button is ON';
+        _isvisible = false;
+      });
+      print('Switch Button is ON');
+    } else {
+      setState(() {
+        isSwitched = false;
+        textValue = 'Switch Button is OFF';
+        _isvisible = true;
+      });
+      print('Switch Button is OFF');
+    }
+  }
+  Future<double> getDistance(double lat,double lon)async{
+      
+      double distance=Geolocator.distanceBetween(lat, lon, 1.2345, 1.456);
+      return distance;
+  }
+  
 
   @override
   Widget build(BuildContext context) {
+    getAllNotify();
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Add New Notification',
-          style: TextStyle(
-            color: Colors.white54,
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-      ),
       backgroundColor: Colors.black87,
       body: SafeArea(
-        child: ValueListenableBuilder<List<UserModel>>(
-          valueListenable: userListNotifier,
-          builder: (BuildContext ctx, List<UserModel> userList, Widget? child) {
-            List<String> data = userList.map((user) => user.name).toList();
-            // if (!data.contains(selectedName)) {
-            //   selectedName = 'Self';
-            // }
-            List<DropdownMenuItem<String>> dropdownItems = data.map((name) {
-              return DropdownMenuItem<String>(
-                value: name,
-                child: Text(name),
-              );
-            }).toList();
+        child: ValueListenableBuilder(
+          valueListenable: notifyListNotifier,
+          builder:
+              (BuildContext ctx, List<NotifyModel> notifyList, Widget? child) {
+            return GridView.count(
+              crossAxisCount: 2,
+              crossAxisSpacing: 10.0,
+              mainAxisSpacing: 10.0,
+              shrinkWrap: true,
+              children: List.generate(notifyList.length, (index) async {
+                
+                final data = notifyList[index];
+                double lat=data.latitude;
+                double lon=data.longitude;
+                // double distance=await getDistance(lat,lon);
+                final loc=data.location.split(',');
+                
+                
 
-            return Padding(
-              padding: EdgeInsets.only(top: 40, left: 20, right: 20),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 15),
-                    child: DropdownButtonFormField<String>(
-                      value: selectedName,
-                      decoration: const InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.black, width: 2)), //<-- SEE HERE
-                        focusedBorder: OutlineInputBorder(
-                          //<-- SEE HERE
-                          borderSide: BorderSide(color: Colors.black, width: 2),
-                        ),
-                        labelText: 'Select a name',
-                        border: OutlineInputBorder(),
-                        filled: true,
-                        fillColor: Colors.grey,
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedName = value!;
-                        });
+                return Container(
+                  child: Card(
+                    color: Color.fromARGB(255, 39, 39, 39),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                    clipBehavior: Clip.hardEdge,
+                    child: InkWell(
+                      splashColor: Colors.blue.withAlpha(30),
+                      onTap: () {
+                        debugPrint('Card tapped.');
                       },
-                      items: [
-                        ...dropdownItems,
-                        DropdownMenuItem<String>(
-                          value: 'Add New Name',
-                          child: Row(
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (ctx) {
-                                      return AddUser();
-                                    }),
-                                  );
-                                },
-                                icon: Icon(Icons.add),
+                      child: SizedBox(
+                        width: 170,
+                        height: 150,
+                        child: Column(
+                          children: [
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 19, top: 3),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.location_on_outlined,
+                                          color: Colors.greenAccent,
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 30),
+                                          child: Text(
+                                            loc[0],
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                        Visibility(
+                                          visible: data.isVisible,
+                                          child: Padding(
+                                              padding: EdgeInsets.only(left: 5),
+                                              child: IconButton(
+                                                onPressed: () {
+                                                  if (data.id != null) {
+                                                    deleteNotify(data.id!);
+                                                  } else {
+                                                    ScaffoldMessenger.of(context)
+                                                        .showSnackBar(SnackBar(
+                                                            content: Text(
+                                                                'Notify id is null')));
+                                                  }
+                                                },
+                                                icon: Icon(
+                                                  Icons.delete,
+                                                  color: Colors.redAccent,
+                                                  size: 15,
+                                                ),
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: 20,
+                                bottom: 4,
+                              ),
+                              child: Text(
+                                data.name,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                                padding: EdgeInsets.only(top: 30, left: 40),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '${data.distance} km',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    Switch(
+                                      value: data.isOn,
+                                      onChanged: (value) {
+                                        if (data.isOn == false) {
+                                          setState(() {
+                                            data.isOn = value;
+                                            data.isVisible = false;
+                                          });
+                                        }
+                                        else{
+                                          setState(() {
+                                            data.isOn = value;
+                                            data.isVisible = true;
+                                          });
+                                        }
+                                      },
+                                      activeColor: Colors.white,
+                                      activeTrackColor:
+                                          Color.fromARGB(255, 30, 232, 8),
+                                      inactiveThumbColor: Colors.white,
+                                      inactiveTrackColor: Colors.grey,
+                                    ),
+                                  ],
+                                ))
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 15),
-                    child: TextFormField(
-                      controller: _distField,
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                      decoration: const InputDecoration(
-                        hintText: 'Before',
-                        labelText: 'Before',
-                        border: OutlineInputBorder(),
-                        suffixText: 'km',
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 15),
-                    child: TextFormField(
-                      controller: _locationField,
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: 'Choose Location',
-                        labelText: 'Location',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      onAddNotify();
-                      Navigator.of(context).pushNamed('notify_home');
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.greenAccent,
-                    ),
-                    child: Text(
-                      'Submit',
-                      style: TextStyle(fontSize: 19),
-                    ),
-                  ),
-                ],
-              ),
+                );
+              } as Widget Function(int index)),
             );
           },
         ),
       ),
+      bottomNavigationBar: Container(
+        height: 60,
+        color: Colors.black,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+                padding: EdgeInsets.only(bottom: 15),
+                child: Center(
+                  child: IconButton(
+                    onPressed: () {
+                      // print('hello notify');
+                      Navigator.of(context).pushNamed('notify-data');
+                    },
+                    icon: Icon(
+                      Icons.add,
+                      color: Colors.green,
+                      size: 45,
+                    ),
+                    splashColor: Colors.green,
+                  ),
+                ))
+          ],
+        ),
+      ),
     );
   }
 
-  Future<void> onAddNotify() async {
-    final _namedata = selectedName;
-    final _locationdata = _locationField.text.trim();
-    final _distdata = _distField.text.trim();
-    if (_locationdata.isEmpty || _distdata.isEmpty) {
-      return;
-    }
-
-    print('$_namedata $_locationdata $_distField');
-    final _notifydb = NotifyModel(
-      name: selectedName!,
-      distance: _distdata,
-      location: _locationdata,
-    );
-    addNotify(_notifydb);
-  }
 }

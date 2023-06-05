@@ -47,8 +47,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       borderRadius: BorderRadius.circular(20),
                       image: const DecorationImage(
-                          image: NetworkImage(
-                              'https://png.pngtree.com/png-vector/20190419/ourlarge/pngtree-vvector-notification-icon-png-image_957092.jpg'),
+                          image:AssetImage('assets/images/notify.webp'),
                           fit: BoxFit.contain)),
                     
                   
@@ -89,8 +88,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       borderRadius: BorderRadius.circular(20),
                       image:const DecorationImage(
-                          image: NetworkImage(
-                              'https://cdn-icons-png.flaticon.com/512/3799/3799832.png'),
+                          image: AssetImage('assets/images/track-order.png'),
                           fit: BoxFit.contain)),
                   // child: Image.network(
                   //     'https://cdn-icons-png.flaticon.com/512/3799/3799832.png'),

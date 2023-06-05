@@ -13,9 +13,13 @@ class TaskModel{
   final String task;
   @HiveField(2)
   final String location;
+  @HiveField(3)
+  final double latitude;
+  @HiveField(4)
+  final double longitude;
   bool isOn=true;
   bool isVisible=false;
-  TaskModel({required this.task, required this.location,this.id});
+  TaskModel({required this.latitude,required this.longitude, required this.task, required this.location,this.id});
 }
 
 @HiveType(typeId:2)
@@ -25,12 +29,16 @@ class NotifyModel{
   @HiveField(1)
   final String name;
   @HiveField(2)
-  final String distance;
+  final double? distance;
   @HiveField(3)
   final String location;
+  @HiveField(4)
+  final double latitude;
+  @HiveField(5)
+  final double longitude;
   bool isOn=true;
   bool isVisible=false;
-  NotifyModel({required this.name,required this.distance,required this.location,this.id});
+  NotifyModel({required this.latitude,required this.longitude, required this.name,required this.distance,required this.location,this.id});
 }
 @HiveType(typeId:3)
 class UserModel {

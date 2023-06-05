@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import '../models/db_models.dart';
+// import 'package:flutter/src/foundation/change_notifier.dart';
 
 ValueNotifier<List<TaskModel>>taskListNotifier=ValueNotifier([]);
 ValueNotifier<List<NotifyModel>>notifyListNotifier=ValueNotifier([]);
@@ -15,6 +16,7 @@ Future <void> addTask(TaskModel task) async{
   // print(task.toString());
 
 }
+
 Future <void> getAllTask() async{
   final taskDB=await Hive.openBox<TaskModel>('task_db');
   taskListNotifier.value.clear();
@@ -22,7 +24,7 @@ Future <void> getAllTask() async{
   taskListNotifier.notifyListeners();
 }
 Future <void> addNotify(NotifyModel notify) async{
-  final notifyDB=await Hive.box<NotifyModel>('notify_db');
+  final notifyDB=await Hive.openBox<NotifyModel>('notify_db');
   final _id= await notifyDB.add(notify);
   notify.id=_id;
   notifyListNotifier.value.add(notify);
@@ -41,6 +43,7 @@ Future <void> getAllNotify() async{
   notifyListNotifier.value.addAll(notifyDB.values);
   notifyListNotifier.notifyListeners();
 }
+
 Future <void> deleteNotify(int id) async{
   final notifyDB=await Hive.openBox<NotifyModel>('notify_db');
   await notifyDB.delete(id);

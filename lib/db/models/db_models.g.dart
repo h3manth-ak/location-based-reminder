@@ -17,6 +17,8 @@ class TaskModelAdapter extends TypeAdapter<TaskModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return TaskModel(
+      latitude: fields[3] as double,
+      longitude: fields[4] as double,
       task: fields[1] as String,
       location: fields[2] as String,
       id: fields[0] as int?,
@@ -26,13 +28,17 @@ class TaskModelAdapter extends TypeAdapter<TaskModel> {
   @override
   void write(BinaryWriter writer, TaskModel obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
       ..write(obj.task)
       ..writeByte(2)
-      ..write(obj.location);
+      ..write(obj.location)
+      ..writeByte(3)
+      ..write(obj.latitude)
+      ..writeByte(4)
+      ..write(obj.longitude);
   }
 
   @override
@@ -57,8 +63,10 @@ class NotifyModelAdapter extends TypeAdapter<NotifyModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return NotifyModel(
+      latitude: fields[4] as double,
+      longitude: fields[5] as double,
       name: fields[1] as String,
-      distance: fields[2] as String,
+      distance: fields[2] as double?,
       location: fields[3] as String,
       id: fields[0] as int?,
     );
@@ -67,7 +75,7 @@ class NotifyModelAdapter extends TypeAdapter<NotifyModel> {
   @override
   void write(BinaryWriter writer, NotifyModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -75,7 +83,11 @@ class NotifyModelAdapter extends TypeAdapter<NotifyModel> {
       ..writeByte(2)
       ..write(obj.distance)
       ..writeByte(3)
-      ..write(obj.location);
+      ..write(obj.location)
+      ..writeByte(4)
+      ..write(obj.latitude)
+      ..writeByte(5)
+      ..write(obj.longitude);
   }
 
   @override

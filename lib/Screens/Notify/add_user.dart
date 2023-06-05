@@ -33,7 +33,9 @@ class AddUser extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: TextFormField(
+                keyboardType: TextInputType.phone,
                 controller: _phone,
+
                 decoration: InputDecoration(
                   hintText: 'Enter Phone',
                   labelText: 'Phone',
